@@ -1,25 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useReducer, useState} from 'react';
+import uuid from 'uuid/v4';
+import Screen from './Screen';
+import UserContextProvider from './context';
+import reducer, { initialState } from './Reducer';
+
 
 function App() {
+
+  const [state, dispatch] = useReducer (reducer, initialState);
+  const [newToDo, setNewToDo] = useState("");
+  const onSubmit = e => {
+    e.preventDefault();
+    dispatch({ type: "ADD", payload: newToDo});
+    setNewToDo("");
+  }
+  const onChange = e => {
+    const {
+      target: { value }
+    } = e;
+    setNewToDo(value);
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>ADD to do</h1>
+      <form onSubmit={onSubmit}>
+        <input 
+          placeholder = "Write to dos"
+          onChange={onChange}
+          value={newToDo}
+          type="text"
+        />
+      </form>
+      <h2>To Dos</h2>
+      <ul>
+        {state.toDos.map((toDo, index) => (
+          <li 
+            key={toDo.id}>
+            <span>{toDo.text}</span>
+            <span onClick={ () => dispatch({ type: "DEL", payload: toDo.id }) }>❌</span>
+            <span role="img" aria-label="" onClick={ () => dispatch({ type: "COMPLETE", payload: toDo.id }) }>✅</span>
+          </li>
+        ))}
+      </ul>
+
+      <h2>Completed List</h2>
+      <ul>
+        {state.completed.map((toDo, index) => (
+          <li 
+            key={toDo.id}>
+            <span>{toDo.text}</span>
+            <span onClick={ () => dispatch({ type: "DEL_COMP", payload: toDo.id }) }>❌</span>
+            <span role="img" aria-label="" onClick={ () => dispatch({ type: "UNCOMPLETE", payload: toDo.id }) }>↩️</span>
+          </li>
+        ))}
+      </ul>
+
+    </>
   );
 }
 
