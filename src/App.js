@@ -1,7 +1,4 @@
 import React, {useReducer, useState} from 'react';
-import uuid from 'uuid/v4';
-import Screen from './Screen';
-import UserContextProvider from './context';
 import reducer, { initialState } from './Reducer';
 
 
@@ -38,7 +35,7 @@ function App() {
           <li 
             key={toDo.id}>
             <span>{toDo.text}</span>
-            <span onClick={ () => dispatch({ type: "DEL", payload: toDo.id }) }>❌</span>
+            <span role="img" aria-label="" onClick={ () => dispatch({ type: "DEL", payload: toDo.id }) }>❌</span>
             <span role="img" aria-label="" onClick={ () => dispatch({ type: "COMPLETE", payload: toDo.id }) }>✅</span>
           </li>
         ))}
@@ -50,7 +47,7 @@ function App() {
           <li 
             key={toDo.id}>
             <span>{toDo.text}</span>
-            <span onClick={ () => dispatch({ type: "DEL_COMP", payload: toDo.id }) }>❌</span>
+            <span role="img" aria-label="" onClick={ () => dispatch({ type: "DEL_COMP", payload: toDo.id }) }>❌</span>
             <span role="img" aria-label="" onClick={ () => dispatch({ type: "UNCOMPLETE", payload: toDo.id }) }>↩️</span>
           </li>
         ))}
