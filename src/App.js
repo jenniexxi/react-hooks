@@ -4,7 +4,7 @@ import reducer, { initialState } from './Reducer';
 
 function App() {
 
-  const [state, dispatch] = useReducer (reducer, initialState);
+  
   const [newToDo, setNewToDo] = useState("");
   const onSubmit = e => {
     e.preventDefault();
